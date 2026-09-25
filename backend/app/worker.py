@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import queue
+import static_ffmpeg
 import threading
 import time
 import traceback
