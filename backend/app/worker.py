@@ -164,19 +164,19 @@ def _metrics_loop() -> None:
 
 
 def start() -> None:
-    static_ffmpeg.add_paths(weak=True)  # <--- Yeh nayi line add karein
+    static_ffmpeg.add_paths(weak=True)
     global _started
     with _lock:
         if _started:
             return
         _started = True
-  for _ in range(2):
+    for _ in range(2):
         threading.Thread(target=_worker_loop, daemon=True).start()
-    threading.Thread(target=_clip_loop, daemon=True).start()
-    threading.Thread(target=_film_loop, daemon=True).start()
-    threading.Thread(target=_longform_loop, daemon=True).start()
-    threading.Thread(target=_scheduler_loop, daemon=True).start()
-    threading.Thread(target=_metrics_loop, daemon=True).start()
+        threading.Thread(target=_clip_loop, daemon=True).start()
+        threading.Thread(target=_film_loop, daemon=True).start()
+        threading.Thread(target=_longform_loop, daemon=True).start()
+        threading.Thread(target=_scheduler_loop, daemon=True).start()
+        threading.Thread(target=_metrics_loop, daemon=True).start()
 
     # Requeue jobs interrupted by a restart. When the disk already has the
     # script and the narration, resume from there instead of spending LLM and
