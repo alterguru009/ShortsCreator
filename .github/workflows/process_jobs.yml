@@ -3,8 +3,7 @@ name: Process Video Jobs
 on:
   workflow_dispatch: # Manual start karne ke liye
   schedule:
-    - cron: '0 14,23 * * *' # Har 6 ghante mein automatic chalega
-
+    - cron: '0 14,23 * * *' # Roz 2 baar (7:30 PM & 4:30 AM IST) chalega
 jobs:
   run-worker:
     runs-on: ubuntu-latest
