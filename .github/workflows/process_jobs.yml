@@ -30,4 +30,4 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           cd backend
-          python app/run_worker.py
+          python -m app.run_worker
