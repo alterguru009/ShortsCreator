@@ -10,12 +10,9 @@ print("Reading job.json...")
 with open("job.json", "r") as f:
     job_data = json.load(f)
 
-job_id = "job_" + str(uuid.uuid4())[:12]
-print(f"Creating local job {job_id}...")
-
-# db.py ke andar create_job function ko dhundhein, agar naam alag hai toh badal lein
-# Yeh function API router bhi use karta hai
-db.create_job(job_id, "Daily AI Video", json.dumps(job_data))
+print("Creating local job...")
+job_id = db.create_job(job_data, "Daily AI Video")
+print(f"Job created with ID: {job_id}")
 
 print("Enqueueing job...")
 worker.enqueue(job_id)
