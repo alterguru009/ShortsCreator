@@ -363,6 +363,48 @@ def _openai_json(system: str, prompt: str, max_tokens: int) -> dict:
     resp.raise_for_status()
     return _extract_json(resp.json()["choices"][0]["message"]["content"])
 
+def _groq_json(
+    system: str,
+    prompt: str,
+    max_tokens: int
+) -> dict:
+
+    import os
+
+    api_key = os.getenv("GROQ_API_KEY")
+
+    if not api_key:
+        raise LLMError("GROQ_API_KEY is not set")
+
+    model = os.getenv(
+        "GROQ_MODEL",
+        "llama-3.3-70b-versatile"
+    )
+
+    resp = httpx.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model,
+            "max_tokens": max_tokens,
+            "response_format": {"type": "json_object"},
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": prompt},
+            ],
+        },
+        timeout=180,
+    )
+
+    resp.raise_for_status()
+
+    return _extract_json(
+        resp.json()["choices"][0]["message"]["content"]
+    )
+
 
 def _ollama_json(system: str, prompt: str, max_tokens: int) -> dict:
     resp = httpx.post(
