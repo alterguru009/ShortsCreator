@@ -91,6 +91,8 @@ def _dispatch_raw(provider: str, model: str | None, system: str, prompt: str,
         return _anthropic_json(system, prompt, schema, max_tokens, model)
     if provider == "openai":
         return _openai_json(system, prompt, max_tokens)
+    if provider == "groq":
+        return _groq_json(system, prompt, schema, max_tokens, model)    
     if provider == "ollama":
         return _ollama_json(system, prompt, max_tokens)
     if provider == "claude_cli":
