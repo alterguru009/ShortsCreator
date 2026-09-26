@@ -247,10 +247,9 @@ try:
 
     # 1. Ingestion — happens only once, even across QA retries
     stage("ingest")
-        material = ingest.ingest(job, job_dir, log)
-        log(f"Source: {material.kind} — "
-            f"{len(material.context())} characters of context")
-
+    material = ingest.ingest(job, job_dir, log)
+    log(f"Source: {material.kind} — "
+        f"{len(material.context())} characters of context")
         if (material.kind == "github" and job.background == "auto"
                 and job.scroll == "nenhum"):
             job.scroll = "codigo"
