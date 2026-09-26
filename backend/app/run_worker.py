@@ -3,6 +3,8 @@ import json
 import static_ffmpeg
 from app import db
 from app.pipeline import orchestrator
+from app.upload_youtube import upload_to_youtube
+from app.config import settings
 
 print("Initializing local SQLite database...")
 db.init_db()
@@ -20,8 +22,21 @@ print(f"Job created with ID: {job_id}")
 
 print("Running job directly (is process mein 5-10 minute lag sakte hain)...")
 try:
-    orchestrator.run_job(job_id)
+    result = orchestrator.run_job(job_id)
     print("Job completed successfully!")
+    
+    # Upload to YouTube
+    print("Uploading to YouTube...")
+    video_path = settings.job_dir(job_id) / "short.mp4"
+    title = result.get("title", "AI Pulse Daily")
+    description = result.get("description", "Daily AI updates")
+    tags = result.get("hashtags", [])
+    
+    if video_path.exists():
+        upload_to_youtube(video_path, title, description, tags)
+    else:
+        print("Video file not found. Skipping upload.")
+        
 except Exception as e:
     print(f"ERROR OCCURRED: {e}")
     import traceback
