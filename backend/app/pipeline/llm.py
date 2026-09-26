@@ -366,7 +366,9 @@ def _openai_json(system: str, prompt: str, max_tokens: int) -> dict:
 def _groq_json(
     system: str,
     prompt: str,
-    max_tokens: int
+    schema: dict | None,
+    max_tokens: int,
+    model: str | None = None,
 ) -> dict:
 
     import os
@@ -376,7 +378,7 @@ def _groq_json(
     if not api_key:
         raise LLMError("GROQ_API_KEY is not set")
 
-    model = os.getenv(
+    model = model or os.getenv(
         "GROQ_MODEL",
         "llama-3.3-70b-versatile"
     )
