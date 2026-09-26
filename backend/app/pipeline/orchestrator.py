@@ -244,8 +244,9 @@ try:
             return dialogo.run(job_id, job, job_dir, log, stage)
 
     render.ensure_ffmpeg()
-        # 1. Ingestion — happens only once, even across QA retries
-        stage("ingest")
+
+    # 1. Ingestion — happens only once, even across QA retries
+    stage("ingest")
         material = ingest.ingest(job, job_dir, log)
         log(f"Source: {material.kind} — "
             f"{len(material.context())} characters of context")
