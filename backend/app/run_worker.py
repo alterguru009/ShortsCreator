@@ -1,13 +1,11 @@
+import sys
 import json
-import static_ffmpeg
 from app import db
 from app.pipeline import orchestrator
 
 print("Initializing local SQLite database...")
 db.init_db()
 
-print("Setting up FFmpeg...")
-static_ffmpeg.add_paths(weak=True)
 print("Reading job.json...")
 with open("job.json", "r") as f:
     job_data = json.load(f)
@@ -24,3 +22,4 @@ except Exception as e:
     print(f"ERROR OCCURRED: {e}")
     import traceback
     traceback.print_exc()
+    sys.exit(1)
