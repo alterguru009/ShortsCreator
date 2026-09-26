@@ -215,31 +215,33 @@ def run_job(job_id: str) -> dict:
         log(f"Stage: {name}")
 
     try:
-        # A recording of your own has neither a script to write nor a voice to
-        # synthesize: the audio and the words are already in the file. It is a
-        # different pipeline, not a variation of this one — but it writes the
-        # same artifacts, so the editor, QA, the cover and publishing all work
-        # on its output unchanged.
-        if job.edit_mode == reels.MODE:
-            return reels.run(job_id, job, job_dir, log, stage)
+      if job.edit_mode == reels.MODE:
+    if job.source_type == "tema":
+        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+            f"Running the default pipeline.", "warn")
+    else:
+        return reels.run(job_id, job, job_dir, log, stage)
 
-        # An avatar video is the same idea from the other side: the provider
-        # renders both the picture and the voice, so there is no script stage
-        # and no TTS stage here either — but it writes the same artifacts.
-        if job.edit_mode == avatar.MODE:
-            return avatar.run(job_id, job, job_dir, log, stage)
+if job.edit_mode == avatar.MODE:
+    if job.source_type == "tema":
+        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+            f"Running the default pipeline.", "warn")
+    else:
+        return avatar.run(job_id, job, job_dir, log, stage)
 
-        # A dub has no script to write either: the words exist, someone said
-        # them, and the job is to say them in another language over the same
-        # picture.
-        if job.edit_mode == dub.MODE:
-            return dub.run(job_id, job, job_dir, log, stage)
+if job.edit_mode == dub.MODE:
+    if job.source_type == "tema":
+        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+            f"Running the default pipeline.", "warn")
+    else:
+        return dub.run(job_id, job, job_dir, log, stage)
 
-        # Uma conversa entre personagens: cada fala tem dono, e o dono decide
-        # voz, imagem e lado da tela ao mesmo tempo. Outra montagem, mesmos
-        # artefatos no fim.
-        if job.edit_mode == dialogo.MODE:
-            return dialogo.run(job_id, job, job_dir, log, stage)
+if job.edit_mode == dialogo.MODE:
+    if job.source_type == "tema":
+        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+            f"Running the default pipeline.", "warn")
+    else:
+        return dialogo.run(job_id, job, job_dir, log, stage)
 
         render.ensure_ffmpeg()
 
