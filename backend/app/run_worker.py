@@ -1,7 +1,6 @@
-import time
 import json
-import uuid
-from app import db, worker
+from app import db
+from app.pipeline import orchestrator
 
 print("Initializing local SQLite database...")
 db.init_db()
@@ -14,12 +13,11 @@ print("Creating local job...")
 job_id = db.create_job(job_data, "Daily AI Video")
 print(f"Job created with ID: {job_id}")
 
-print("Enqueueing job...")
-worker.enqueue(job_id)
-
-print("Worker starting...")
-worker.start()
-
-print("Worker started. Processing jobs for 10 minutes...")
-time.sleep(600)
-print("Worker finished.")
+print("Running job directly (is process mein 5-10 minute lag sakte hain)...")
+try:
+    orchestrator.run_job(job_id)
+    print("Job completed successfully!")
+except Exception as e:
+    print(f"ERROR OCCURRED: {e}")
+    import traceback
+    traceback.print_exc()
