@@ -18,6 +18,13 @@ jobs:
         run: |
           cd backend
           pip install -r requirements.txt
+      - name: Create Job via API
+        run: |
+          curl -X POST https://ai-pulse-daily.onrender.com/api/jobs \
+          -H "Content-Type: application/json" \
+          -d @backend/job.json
+          echo "Job created. Waiting for Render to process..."
+          sleep 60
       - name: Run Worker
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
