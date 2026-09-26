@@ -214,37 +214,37 @@ def run_job(job_id: str) -> dict:
         db.update_job(job_id, stage=name, progress=progress, status="running")
         log(f"Stage: {name}")
 
-    try:
-      if job.edit_mode == reels.MODE:
-    if job.source_type == "tema":
-        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
-            f"Running the default pipeline.", "warn")
-    else:
-        return reels.run(job_id, job, job_dir, log, stage)
+try:
+    if job.edit_mode == reels.MODE:
+        if job.source_type == "tema":
+            log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+                f"Running the default pipeline.", "warn")
+        else:
+            return reels.run(job_id, job, job_dir, log, stage)
 
-if job.edit_mode == avatar.MODE:
-    if job.source_type == "tema":
-        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
-            f"Running the default pipeline.", "warn")
-    else:
-        return avatar.run(job_id, job, job_dir, log, stage)
+    if job.edit_mode == avatar.MODE:
+        if job.source_type == "tema":
+            log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+                f"Running the default pipeline.", "warn")
+        else:
+            return avatar.run(job_id, job, job_dir, log, stage)
 
-if job.edit_mode == dub.MODE:
-    if job.source_type == "tema":
-        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
-            f"Running the default pipeline.", "warn")
-    else:
-        return dub.run(job_id, job, job_dir, log, stage)
+    if job.edit_mode == dub.MODE:
+        if job.source_type == "tema":
+            log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+                f"Running the default pipeline.", "warn")
+        else:
+            return dub.run(job_id, job, job_dir, log, stage)
 
-if job.edit_mode == dialogo.MODE:
-    if job.source_type == "tema":
-        log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
-            f"Running the default pipeline.", "warn")
-    else:
-        return dialogo.run(job_id, job, job_dir, log, stage)
+    if job.edit_mode == dialogo.MODE:
+        if job.source_type == "tema":
+            log(f"Edit mode '{job.edit_mode}' does not support source_type 'tema'. "
+                f"Running the default pipeline.", "warn")
+        else:
+            return dialogo.run(job_id, job, job_dir, log, stage)
 
-        render.ensure_ffmpeg()
-
+    render.ensure_ffmpeg()
+  
         # 1. Ingestion — happens only once, even across QA retries
         stage("ingest")
         material = ingest.ingest(job, job_dir, log)
