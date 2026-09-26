@@ -1,0 +1,13 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    - cron: '*/14 * * * *' # Har 14 minute mein ping karega
+  workflow_dispatch: # Manual test ke liye
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render App
+        run: curl -s https://ai-pulse-daily.onrender.com
